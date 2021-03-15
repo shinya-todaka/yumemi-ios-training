@@ -7,10 +7,11 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, StoryboardInstantiatable {
+final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
     }
     
