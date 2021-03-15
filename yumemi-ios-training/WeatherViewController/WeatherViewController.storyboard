@@ -65,6 +65,11 @@
                             <constraint firstItem="Ugw-ZJ-l05" firstAttribute="centerX" secondItem="rn9-x5-Jip" secondAttribute="centerX" id="ogd-Ct-oc7"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="closeButton" destination="Ugw-ZJ-l05" id="vQK-um-ORp"/>
+                        <outlet property="reloadButton" destination="ddG-gE-vFR" id="Hz7-rq-1xM"/>
+                        <outlet property="weatherImageView" destination="AcO-Bj-bcX" id="1V0-PG-Rpz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yyb-ES-Yz3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
