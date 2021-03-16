@@ -10,9 +10,9 @@ import YumemiWeather
 
 final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     
-    @IBOutlet weak var weatherImageView: UIImageView!
-    @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var reloadButton: UIButton!
+    @IBOutlet private weak var weatherImageView: UIImageView!
+    @IBOutlet private weak var closeButton: UIButton!
+    @IBOutlet private weak var reloadButton: UIButton!
     
     @IBAction func reloadWeatherAction(_ sender: Any) {
         reloadWeather()
