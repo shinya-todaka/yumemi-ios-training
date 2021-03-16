@@ -7,7 +7,9 @@
 
 import UIKit
 
-public protocol Instantiatable: NSObjectProtocol { }
+public protocol Instantiatable: NSObjectProtocol {
+    static func instantiate() -> Self 
+}
 
 public protocol StoryboardInstantiatable: UIViewController, Instantiatable { }
 
