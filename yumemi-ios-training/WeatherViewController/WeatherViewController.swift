@@ -26,32 +26,19 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
         let weatherString = YumemiWeather.fetchWeather()
         
         let weather = Weather(rawValue: weatherString)!
-        let weatherImage = UIImage(named: weather.imageName)!
-        let coloredWeatherImage = weatherImage.withTintColor(weather.imageColor)
-        weatherImageView.image = coloredWeatherImage
+        weatherImageView.image = weather.image
     }
 }
 
 private extension Weather {
-    var imageName: String {
+    var image: UIImage {
         switch self {
         case .sunny:
-            return "iconmonstr-weather-1"
+            return UIImage(named: "iconmonstr-weather-1")!.withTintColor(.systemRed)
         case .rainy:
-            return "iconmonstr-umbrella-1"
+            return UIImage(named: "iconmonstr-umbrella-1")!.withTintColor(.systemBlue)
         case .cloudy:
-            return "iconmonstr-weather-11"
-        }
-    }
-    
-    var imageColor: UIColor {
-        switch self {
-        case .sunny:
-            return .systemRed
-        case .rainy:
-            return .systemBlue
-        case .cloudy:
-            return .systemGray
+            return UIImage(named: "iconmonstr-weather-11")!.withTintColor(.systemGray)
         }
     }
 }
