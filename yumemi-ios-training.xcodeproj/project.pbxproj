@@ -107,10 +107,10 @@
 		08B8596B25FEF7B7008BC8F0 /* yumemi-ios-training */ = {
 			isa = PBXGroup;
 			children = (
+				08B85A262600812A008BC8F0 /* Model */,
 				08B859C125FF0A0E008BC8F0 /* WeatherViewController */,
 				08B859B325FF08F7008BC8F0 /* Extensions */,
 				08B8596C25FEF7B7008BC8F0 /* AppDelegate.swift */,
-				08B859DC25FF2CB2008BC8F0 /* Weather.swift */,
 				08B8596E25FEF7B7008BC8F0 /* SceneDelegate.swift */,
 				08B8597525FEF7B8008BC8F0 /* Assets.xcassets */,
 				08B8597725FEF7B8008BC8F0 /* LaunchScreen.storyboard */,
@@ -153,6 +153,14 @@
 				08B859AE25FF08A5008BC8F0 /* WeatherViewController.storyboard */,
 			);
 			path = WeatherViewController;
+			sourceTree = "<group>";
+		};
+		08B85A262600812A008BC8F0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				08B859DC25FF2CB2008BC8F0 /* Weather.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
