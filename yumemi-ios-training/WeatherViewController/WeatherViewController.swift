@@ -8,7 +8,7 @@
 import UIKit
 import YumemiWeather
 
-class WeatherViewController: UIViewController, StoryboardInstantiatable {
+final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var closeButton: UIButton!
@@ -21,15 +21,16 @@ class WeatherViewController: UIViewController, StoryboardInstantiatable {
     }
     
     private func setupUI() {
-        reloadButton.addTarget(self, action: #selector(handleReload), for: .touchUpInside)
+        reloadButton.addTarget(self, action: #selector(handleReloadWeather), for: .touchUpInside)
     }
     
-    @objc func handleReload() {
+    @objc private func handleReloadWeather() {
         let weatherString = YumemiWeather.fetchWeather()
         
         let weather = Weather(rawValue: weatherString)!
-        let weatherImage = UIImage(named: weather.imageName)?.withTintColor(weather.imageColor)
-        self.weatherImageView.image = weatherImage
+        let weatherImage = UIImage(named: weather.imageName)!
+        let coloredWeatherImage = weatherImage.withTintColor(weather.imageColor)
+        weatherImageView.image = coloredWeatherImage
     }
 }
 
