@@ -31,7 +31,14 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
             self.weatherImageView.image = weather.image
         } catch let error {
             let yumemiWeatherError = error as! YumemiWeatherError
+            showAlert(message: yumemiWeatherError.errorMessage)
         }
+    }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "エラー", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
