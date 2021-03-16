@@ -22,7 +22,7 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
         super.viewDidLoad()
     }
     
-    @objc private func reloadWeather() {
+    private func reloadWeather() {
         let weatherString = YumemiWeather.fetchWeather()
         
         let weather = Weather(rawValue: weatherString)!
@@ -35,8 +35,10 @@ private extension Weather {
         switch self {
         case .sunny:
             return UIImage(named: "iconmonstr-weather-1")!.withTintColor(.systemRed)
+            
         case .rainy:
             return UIImage(named: "iconmonstr-umbrella-1")!.withTintColor(.systemBlue)
+            
         case .cloudy:
             return UIImage(named: "iconmonstr-weather-11")!.withTintColor(.systemGray)
         }
