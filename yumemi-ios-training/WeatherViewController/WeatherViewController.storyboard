@@ -51,6 +51,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ddG-gE-vFR">
                                 <rect key="frame" x="235.5" y="647" width="47" height="30"/>
                                 <state key="normal" title="Reload"/>
+                                <connections>
+                                    <action selector="reloadWeatherAction:" destination="CoQ-YS-WvN" eventType="touchUpInside" id="kAu-qT-WS9"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PRV-cP-cyj"/>

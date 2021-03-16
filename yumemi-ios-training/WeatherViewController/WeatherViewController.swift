@@ -14,17 +14,15 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var reloadButton: UIButton!
     
+    @IBAction func reloadWeatherAction(_ sender: Any) {
+        reloadWeather()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupUI()
     }
     
-    private func setupUI() {
-        reloadButton.addTarget(self, action: #selector(handleReloadWeather), for: .touchUpInside)
-    }
-    
-    @objc private func handleReloadWeather() {
+    @objc private func reloadWeather() {
         let weatherString = YumemiWeather.fetchWeather()
         
         let weather = Weather(rawValue: weatherString)!
@@ -34,3 +32,26 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     }
 }
 
+private extension Weather {
+    var imageName: String {
+        switch self {
+        case .sunny:
+            return "iconmonstr-weather-1"
+        case .rainy:
+            return "iconmonstr-umbrella-1"
+        case .cloudy:
+            return "iconmonstr-weather-11"
+        }
+    }
+    
+    var imageColor: UIColor {
+        switch self {
+        case .sunny:
+            return .systemRed
+        case .rainy:
+            return .systemBlue
+        case .cloudy:
+            return .systemGray
+        }
+    }
+}
