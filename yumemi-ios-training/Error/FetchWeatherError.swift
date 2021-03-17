@@ -10,6 +10,7 @@ import YumemiWeather
 
 enum FetchWeatherError: Error {
     case apiError(YumemiWeatherError)
+    case decodeResponseError
     case unknownError
     
     var errorDescription: String {
@@ -19,6 +20,9 @@ enum FetchWeatherError: Error {
             
         case .apiError(.jsonDecodeError):
             return "JSONのデコードに失敗しました"
+            
+        case .decodeResponseError:
+            return "レスポンスのデコードに失敗しました"
             
         case .unknownError, .apiError(.unknownError):
             return "不明なエラー"
