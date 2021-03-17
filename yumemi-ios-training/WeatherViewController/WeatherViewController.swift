@@ -25,13 +25,22 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     private func reloadWeather() {
         let exampleArea = "tokyo"
         
+        switch fetchWeather(at: exampleArea) {
+        case let .success(weather):
+            weatherImageView.image = weather.image
+        case let .failure(error):
+            showAlert(message: error.errorDescription)
+        }
+    }
+    
+    private func fetchWeather(at area: String) -> Result<Weather,YumemiWeatherError> {
         do {
-            let weatherString = try YumemiWeather.fetchWeather(at: exampleArea)
+            let weatherString = try YumemiWeather.fetchWeather(at: area)
             let weather = Weather(rawValue: weatherString)!
-            self.weatherImageView.image = weather.image
+            return .success(weather)
         } catch let error {
             let yumemiWeatherError = error as! YumemiWeatherError
-            showAlert(message: yumemiWeatherError.errorDescription)
+            return .failure(yumemiWeatherError)
         }
     }
     
