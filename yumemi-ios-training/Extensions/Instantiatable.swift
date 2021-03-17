@@ -11,7 +11,7 @@ public protocol Instantiatable: NSObjectProtocol {
     static func instantiate() -> Self 
 }
 
-public protocol StoryboardInstantiatable: UIViewController, Instantiatable { }
+public protocol StoryboardInstantiatable: UIViewController, Instantiatable {}
 
 public extension StoryboardInstantiatable {
     static var storyboard: UIStoryboard {
