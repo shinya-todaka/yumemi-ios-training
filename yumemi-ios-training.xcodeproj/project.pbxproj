@@ -19,7 +19,6 @@
 		08B859B525FF090A008BC8F0 /* Instantiatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B859B425FF090A008BC8F0 /* Instantiatable.swift */; };
 		08B859BD25FF0947008BC8F0 /* ClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B859BC25FF0947008BC8F0 /* ClassName.swift */; };
 		08B859DD25FF2CB2008BC8F0 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B859DC25FF2CB2008BC8F0 /* Weather.swift */; };
-		08B85A2B26008B8D008BC8F0 /* YumemiWeatherError+message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B85A2A26008B8D008BC8F0 /* YumemiWeatherError+message.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +56,6 @@
 		08B859B425FF090A008BC8F0 /* Instantiatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instantiatable.swift; sourceTree = "<group>"; };
 		08B859BC25FF0947008BC8F0 /* ClassName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassName.swift; sourceTree = "<group>"; };
 		08B859DC25FF2CB2008BC8F0 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
-		08B85A2A26008B8D008BC8F0 /* YumemiWeatherError+message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YumemiWeatherError+message.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +142,6 @@
 			children = (
 				08B859B425FF090A008BC8F0 /* Instantiatable.swift */,
 				08B859BC25FF0947008BC8F0 /* ClassName.swift */,
-				08B85A2A26008B8D008BC8F0 /* YumemiWeatherError+message.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -307,7 +304,6 @@
 				08B859BD25FF0947008BC8F0 /* ClassName.swift in Sources */,
 				08B859B525FF090A008BC8F0 /* Instantiatable.swift in Sources */,
 				08B859DD25FF2CB2008BC8F0 /* Weather.swift in Sources */,
-				08B85A2B26008B8D008BC8F0 /* YumemiWeatherError+message.swift in Sources */,
 				08B8596F25FEF7B7008BC8F0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

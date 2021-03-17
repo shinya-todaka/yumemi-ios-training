@@ -31,7 +31,7 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
             self.weatherImageView.image = weather.image
         } catch let error {
             let yumemiWeatherError = error as! YumemiWeatherError
-            showAlert(message: yumemiWeatherError.errorMessage)
+            showAlert(message: yumemiWeatherError.errorDescription)
         }
     }
     
@@ -53,6 +53,21 @@ private extension Weather {
             
         case .cloudy:
             return UIImage(named: "iconmonstr-weather-11")!.withTintColor(.systemGray)
+        }
+    }
+}
+
+private extension YumemiWeatherError {
+    var errorDescription: String {
+        switch self {
+        case .invalidParameterError:
+            return "パラメータが正しくありません"
+            
+        case .jsonDecodeError:
+            return "JSONのデコードに失敗しました"
+            
+        case .unknownError:
+            return "不明なエラー"
         }
     }
 }
