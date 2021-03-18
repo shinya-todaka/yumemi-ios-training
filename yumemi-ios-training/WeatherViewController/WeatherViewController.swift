@@ -41,6 +41,7 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     
     private func fetchWeather(jsonString: String) throws -> WeatherInfo {
         let jsonResponseString = try YumemiWeather.fetchWeather(jsonString)
+        
         guard let data = jsonResponseString.data(using: .utf8),
               let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
               let dictionary = jsonResponse as? [String: Any],

@@ -11,13 +11,20 @@ struct WeatherInfo {
     let weather: Weather
     let maxTemp: Int
     let minTemp: Int
-    let date: String
+    let date: Date
+    
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return formatter
+    }()
     
     init?(dictionary: [String: Any]) {
         guard let weatherString = dictionary["weather"] as? String,
               let maxTemp = dictionary["max_temp"] as? Int,
               let minTemp = dictionary["min_temp"] as? Int,
-              let date = dictionary["date"] as? String else {
+              let dateString = dictionary["date"] as? String,
+              let date = dateFormatter.date(from: dateString) else {
             return nil
         }
         
