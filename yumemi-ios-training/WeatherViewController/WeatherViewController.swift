@@ -25,22 +25,29 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     private func reloadWeather() {
         let exampleArea = "tokyo"
         
-        do {
-            let weather = try fetchWeather(at: exampleArea)
-            self.weatherImageView.image = weather.image
-        } catch let error as YumemiWeatherError {
+        switch fetchWeather(at: exampleArea) {
+        case let .success(weather):
+            weatherImageView.image = weather.image
             
+        case let .failure(error):
             showAlert(message: error.errorDescription)
-        } catch let error {
-            
-            showAlert(message: error.localizedDescription)
         }
     }
     
-    private func fetchWeather(at area: String) throws -> Weather {
-        let weatherString = try YumemiWeather.fetchWeather(at: area)
+    private func fetchWeather(at area: String) -> Result<Weather, FetchWeatherError> {
+        
+        let weatherString: String
+        
+        do {
+            weatherString = try YumemiWeather.fetchWeather(at: area)
+        } catch let error as YumemiWeatherError {
+            return .failure(.apiError(error))
+        } catch {
+            return .failure(.unknownError)
+        }
+         
         let weather = Weather(rawValue: weatherString)!
-        return weather
+        return .success(weather)
     }
     
     private func showAlert(message: String) {
@@ -61,21 +68,6 @@ private extension Weather {
             
         case .cloudy:
             return UIImage(named: "iconmonstr-weather-11")!.withTintColor(.systemGray)
-        }
-    }
-}
-
-private extension YumemiWeatherError {
-    var errorDescription: String {
-        switch self {
-        case .invalidParameterError:
-            return "パラメータが正しくありません"
-            
-        case .jsonDecodeError:
-            return "JSONのデコードに失敗しました"
-            
-        case .unknownError:
-            return "不明なエラー"
         }
     }
 }
