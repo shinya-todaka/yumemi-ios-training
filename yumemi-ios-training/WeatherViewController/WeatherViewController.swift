@@ -28,27 +28,36 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
         let exampleJson = """
             {"area": "tokyo", "date": "2020-04-01T12:00:00+09:00"}
             """
-
-        do {
-            let weatherInfo = try fetchWeather(jsonString: exampleJson)
+        
+        switch fetchWeather(jsonString: exampleJson) {
+        case let .success(weatherInfo):
             configure(with: weatherInfo)
-        } catch let error as FetchWeatherError {
+            
+        case let .failure(error):
             showAlert(message: error.errorDescription)
-        } catch let error {
-            showAlert(message: error.localizedDescription)
         }
     }
     
-    private func fetchWeather(jsonString: String) throws -> WeatherInfo {
-        let jsonResponseString = try YumemiWeather.fetchWeather(jsonString)
+    private func fetchWeather(jsonString: String) -> Result<WeatherInfo, FetchWeatherError> {
+        
+        let jsonResponseString: String
+        
+        do {
+            jsonResponseString = try YumemiWeather.fetchWeather(jsonString)
+        } catch let error as YumemiWeatherError {
+            return .failure(.apiError(error))
+        } catch {
+            return .failure(.unknownError)
+        }
         
         guard let data = jsonResponseString.data(using: .utf8),
               let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
               let dictionary = jsonResponse as? [String: Any],
               let weatherInfo = WeatherInfo(dictionary: dictionary) else {
-            throw FetchWeatherError.decodeResponseError
+            return .failure(.decodeResponseError)
         }
-        return weatherInfo
+        
+        return .success(weatherInfo)
     }
     
     private func configure(with weatherInfo: WeatherInfo) {
