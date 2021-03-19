@@ -23,8 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         window.makeKeyAndVisible()
 
-        let weatherViewController = WeatherViewController.instantiate()
-        window.rootViewController = weatherViewController
+        window.rootViewController = RootViewController()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

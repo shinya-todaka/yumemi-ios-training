@@ -47,6 +47,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ugw-ZJ-l05">
                                 <rect key="frame" x="136" y="647" width="39" height="30"/>
                                 <state key="normal" title="Close"/>
+                                <connections>
+                                    <action selector="closeButtonAction:" destination="CoQ-YS-WvN" eventType="touchUpInside" id="Jyh-ya-kIR"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ddG-gE-vFR">
                                 <rect key="frame" x="235.5" y="647" width="47" height="30"/>
