@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0897CF5526048A9700234122 /* WeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0897CF5426048A9700234122 /* WeatherRequest.swift */; };
 		08B8596D25FEF7B7008BC8F0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B8596C25FEF7B7008BC8F0 /* AppDelegate.swift */; };
 		08B8596F25FEF7B7008BC8F0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B8596E25FEF7B7008BC8F0 /* SceneDelegate.swift */; };
 		08B8597125FEF7B7008BC8F0 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B8597025FEF7B7008BC8F0 /* WeatherViewController.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0897CF5426048A9700234122 /* WeatherRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRequest.swift; sourceTree = "<group>"; };
 		08B8596925FEF7B7008BC8F0 /* yumemi-ios-training.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "yumemi-ios-training.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08B8596C25FEF7B7008BC8F0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08B8596E25FEF7B7008BC8F0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 			children = (
 				08B859DC25FF2CB2008BC8F0 /* Weather.swift */,
 				08B85B072601E134008BC8F0 /* WeatherInfo.swift */,
+				0897CF5426048A9700234122 /* WeatherRequest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				08B8596D25FEF7B7008BC8F0 /* AppDelegate.swift in Sources */,
 				08B859BD25FF0947008BC8F0 /* ClassName.swift in Sources */,
 				08B859B525FF090A008BC8F0 /* Instantiatable.swift in Sources */,
+				0897CF5526048A9700234122 /* WeatherRequest.swift in Sources */,
 				08B859DD25FF2CB2008BC8F0 /* Weather.swift in Sources */,
 				08B8596F25FEF7B7008BC8F0 /* SceneDelegate.swift in Sources */,
 			);
