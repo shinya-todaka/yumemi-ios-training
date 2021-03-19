@@ -13,8 +13,8 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     @IBOutlet private weak var weatherImageView: UIImageView!
     @IBOutlet private weak var closeButton: UIButton!
     @IBOutlet private weak var reloadButton: UIButton!
-    @IBOutlet weak var minTempLabel: UILabel!
-    @IBOutlet weak var maxTempLabel: UILabel!
+    @IBOutlet private weak var minTempLabel: UILabel!
+    @IBOutlet private weak var maxTempLabel: UILabel!
     
     @IBAction func reloadWeatherAction(_ sender: Any) {
         reloadWeather()
