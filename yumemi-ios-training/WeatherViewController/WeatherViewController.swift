@@ -24,12 +24,19 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
         super.viewDidLoad()
     }
     
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.timeZone = NSTimeZone.system
+        formatter.locale = NSLocale.system
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return formatter
+    }()
+    
     private func reloadWeather() {
-        let exampleJson = """
-            {"area": "tokyo", "date": "2020-04-01T12:00:00+09:00"}
-            """
+        let exampleRequest = WeatherRequest(area: "tokyo", date: Date())
         
-        switch fetchWeather(jsonString: exampleJson) {
+        switch fetchWeather(request: exampleRequest) {
         case let .success(weatherInfo):
             configure(with: weatherInfo)
             
@@ -38,7 +45,14 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
         }
     }
     
-    private func fetchWeather(jsonString: String) -> Result<WeatherInfo, FetchWeatherError> {
+    private func fetchWeather(request: WeatherRequest) -> Result<WeatherInfo, FetchWeatherError> {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .formatted(dateFormatter)
+        
+        guard let requestData = try? encoder.encode(request),
+              let jsonString = String(data: requestData, encoding: .utf8) else {
+            return .failure(.encodeRequestError)
+        }
         
         let jsonResponseString: String
         
@@ -50,10 +64,12 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
             return .failure(.unknownError)
         }
         
-        guard let data = jsonResponseString.data(using: .utf8),
-              let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
-              let dictionary = jsonResponse as? [String: Any],
-              let weatherInfo = WeatherInfo(dictionary: dictionary) else {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        guard let responseData = jsonResponseString.data(using: .utf8),
+              let weatherInfo = try? decoder.decode(WeatherInfo.self, from: responseData) else {
             return .failure(.decodeResponseError)
         }
         
