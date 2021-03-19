@@ -1,22 +1,25 @@
 //
-//  YumemiWeatherError+errorDescription.swift
+//  FetchWeatherError.swift
 //  yumemi-ios-training
 //
 //  Created by 戸高 新也 on 2021/03/18.
 //
 
+import Foundation
 import YumemiWeather
 
-extension YumemiWeatherError {
+enum FetchWeatherError: Error {
+    case apiError(YumemiWeatherError)
+    case unknownError
+    
     var errorDescription: String {
         switch self {
-        case .invalidParameterError:
+        case .apiError(.invalidParameterError):
             return "パラメータが正しくありません"
-            
-        case .jsonDecodeError:
+        case .apiError(.jsonDecodeError):
             return "JSONのデコードに失敗しました"
             
-        case .unknownError:
+        case .unknownError, .apiError(.unknownError):
             return "不明なエラー"
         }
     }

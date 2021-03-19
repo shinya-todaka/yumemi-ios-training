@@ -34,20 +34,23 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
         }
     }
     
-    private func fetchWeather(at area: String) -> Result<Weather, CallAPIError> {
+    private func fetchWeather(at area: String) -> Result<Weather, FetchWeatherError> {
         
         let weatherString: String
         
         do {
             weatherString = try YumemiWeather.fetchWeather(at: area)
         } catch let error as YumemiWeatherError {
-            return .failure(.apiError(errorMessage: error.errorDescription))
+            return .failure(.apiError(error))
         } catch {
             return .failure(.unknownError)
         }
          
-        let weather = Weather(rawValue: weatherString)!
-        return .success(weather)
+        if let weather = Weather(rawValue: weatherString) {
+            return .success(weather)
+        } else {
+            return .failure(.unknownError)
+        }
     }
     
     private func showAlert(message: String) {
