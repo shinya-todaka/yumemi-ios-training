@@ -15,6 +15,9 @@ struct WeatherInfo {
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.timeZone = NSTimeZone.system
+        formatter.locale = NSLocale.system
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         return formatter
     }()
