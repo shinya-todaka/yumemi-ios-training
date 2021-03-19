@@ -8,14 +8,15 @@
 import Foundation
 import YumemiWeather
 
-enum FetchWeatherError: Error {
-    case apiError(YumemiWeatherError)
+enum CallAPIError: Error {
+    case apiError(errorMessage: String)
     case unknownError
     
     var errorDescription: String {
         switch self {
-        case let .apiError(yumemiWeatherError):
-            return yumemiWeatherError.errorDescription
+        case let .apiError(errorMessage):
+            return errorMessage
+            
         case .unknownError:
             return "不明なエラー"
         }
