@@ -19,6 +19,7 @@
 		08B859B525FF090A008BC8F0 /* Instantiatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B859B425FF090A008BC8F0 /* Instantiatable.swift */; };
 		08B859BD25FF0947008BC8F0 /* ClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B859BC25FF0947008BC8F0 /* ClassName.swift */; };
 		08B859DD25FF2CB2008BC8F0 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B859DC25FF2CB2008BC8F0 /* Weather.swift */; };
+		08B85B7E26038E5F008BC8F0 /* FetchWeatherError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B85B7D26038E5F008BC8F0 /* FetchWeatherError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		08B859B425FF090A008BC8F0 /* Instantiatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instantiatable.swift; sourceTree = "<group>"; };
 		08B859BC25FF0947008BC8F0 /* ClassName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassName.swift; sourceTree = "<group>"; };
 		08B859DC25FF2CB2008BC8F0 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		08B85B7D26038E5F008BC8F0 /* FetchWeatherError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchWeatherError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 		08B8596B25FEF7B7008BC8F0 /* yumemi-ios-training */ = {
 			isa = PBXGroup;
 			children = (
+				08B85B7C26038E46008BC8F0 /* Error */,
 				08B85A262600812A008BC8F0 /* Model */,
 				08B859C125FF0A0E008BC8F0 /* WeatherViewController */,
 				08B859B325FF08F7008BC8F0 /* Extensions */,
@@ -161,6 +164,14 @@
 				08B859DC25FF2CB2008BC8F0 /* Weather.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		08B85B7C26038E46008BC8F0 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				08B85B7D26038E5F008BC8F0 /* FetchWeatherError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,6 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08B8597125FEF7B7008BC8F0 /* WeatherViewController.swift in Sources */,
+				08B85B7E26038E5F008BC8F0 /* FetchWeatherError.swift in Sources */,
 				08B8596D25FEF7B7008BC8F0 /* AppDelegate.swift in Sources */,
 				08B859BD25FF0947008BC8F0 /* ClassName.swift in Sources */,
 				08B859B525FF090A008BC8F0 /* Instantiatable.swift in Sources */,
