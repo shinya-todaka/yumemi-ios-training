@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import YumemiWeather
 
 enum CallAPIError: Error {
     case apiError(errorMessage: String)
