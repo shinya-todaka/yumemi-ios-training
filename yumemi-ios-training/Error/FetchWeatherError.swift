@@ -21,9 +21,6 @@ enum FetchWeatherError: Error {
         case .apiError(.jsonDecodeError):
             return "JSONのデコードに失敗しました"
             
-        case .encodeRequestError:
-            return "リクエストのエンコードに失敗しました"
-            
         case .decodeResponseError:
             return "レスポンスのデコードに失敗しました"
             
