@@ -13,6 +13,8 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     @IBOutlet private weak var weatherImageView: UIImageView!
     @IBOutlet private weak var closeButton: UIButton!
     @IBOutlet private weak var reloadButton: UIButton!
+    @IBOutlet private weak var minTempLabel: UILabel!
+    @IBOutlet private weak var maxTempLabel: UILabel!
     
     @IBAction func reloadWeatherAction(_ sender: Any) {
         reloadWeather()
@@ -23,36 +25,48 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     }
     
     private func reloadWeather() {
-        let exampleArea = "tokyo"
+        let exampleJson = """
+            {"area": "tokyo", "date": "2020-04-01T12:00:00+09:00"}
+            """
         
-        switch fetchWeather(at: exampleArea) {
-        case let .success(weather):
-            weatherImageView.image = weather.image
+        switch fetchWeather(jsonString: exampleJson) {
+        case let .success(weatherInfo):
+            configure(with: weatherInfo)
             
         case let .failure(error):
             showAlert(message: error.errorDescription)
         }
     }
     
-    private func fetchWeather(at area: String) -> Result<Weather, FetchWeatherError> {
+    private func fetchWeather(jsonString: String) -> Result<WeatherInfo, FetchWeatherError> {
         
-        let weatherString: String
+        let jsonResponseString: String
         
         do {
-            weatherString = try YumemiWeather.fetchWeather(at: area)
+            jsonResponseString = try YumemiWeather.fetchWeather(jsonString)
         } catch let error as YumemiWeatherError {
             return .failure(.apiError(error))
         } catch {
             return .failure(.unknownError)
         }
-         
-        if let weather = Weather(rawValue: weatherString) {
-            return .success(weather)
-        } else {
-            return .failure(.unknownError)
+        
+        guard let data = jsonResponseString.data(using: .utf8),
+              let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
+              let dictionary = jsonResponse as? [String: Any],
+              let weatherInfo = WeatherInfo(dictionary: dictionary) else {
+            return .failure(.decodeResponseError)
         }
+        
+        return .success(weatherInfo)
     }
     
+    private func configure(with weatherInfo: WeatherInfo) {
+        maxTempLabel.text = "\(weatherInfo.maxTemp)"
+        minTempLabel.text = "\(weatherInfo.minTemp)"
+        let weather = weatherInfo.weather
+        weatherImageView.image = weather.image
+    }
+
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "エラー", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
