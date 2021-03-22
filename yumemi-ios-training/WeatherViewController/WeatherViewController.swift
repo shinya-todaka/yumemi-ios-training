@@ -31,6 +31,12 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    @objc private func willEnterForeground() {
+        reloadWeather()
     }
     
     private let dateFormatter: DateFormatter = {
