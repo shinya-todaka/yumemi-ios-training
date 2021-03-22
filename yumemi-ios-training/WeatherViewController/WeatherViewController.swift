@@ -61,10 +61,10 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     }
     
     private func configure(with weatherInfo: WeatherInfo) {
-        self.maxTempLabel.text = "\(weatherInfo.maxTemp)"
-        self.minTempLabel.text = "\(weatherInfo.minTemp)"
+        maxTempLabel.text = "\(weatherInfo.maxTemp)"
+        minTempLabel.text = "\(weatherInfo.minTemp)"
         let weather = weatherInfo.weather
-        self.weatherImageView.image = weather.image
+        weatherImageView.image = weather.image
     }
 
     private func showAlert(message: String) {
