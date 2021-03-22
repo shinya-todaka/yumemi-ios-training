@@ -27,7 +27,6 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         reloadWeather()
-        
     }
     
     override func viewDidLoad() {
