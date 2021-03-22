@@ -10,7 +10,7 @@ options:
 settings:
   configs:
     debug:
-      DEBUG_INFORMATION_FORMAT: "dwarf-with-dsym"
+      DEBUG_INFORMATION_FORMAT: "dwarf"
 
 packages:
   YumemiWeather:
