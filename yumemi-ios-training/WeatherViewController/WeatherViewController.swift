@@ -32,11 +32,7 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-    }
-    
-    @objc private func willEnterForeground() {
-        reloadWeather()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadWeather), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
     private let dateFormatter: DateFormatter = {
@@ -46,7 +42,7 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
         return formatter
     }()
     
-    private func reloadWeather() {
+    @objc private func reloadWeather() {
         let exampleRequest = WeatherRequest(area: "tokyo", date: Date())
         
         switch fetchWeather(request: exampleRequest) {
