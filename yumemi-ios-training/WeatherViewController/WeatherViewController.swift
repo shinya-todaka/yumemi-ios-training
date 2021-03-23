@@ -20,6 +20,15 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
         reloadWeather()
     }
     
+    @IBAction func closeButtonAction(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        reloadWeather()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
