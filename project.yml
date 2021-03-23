@@ -11,7 +11,9 @@ packages:
   YumemiWeather:
     url: https://github.com/yumemi-inc/ios-training.git
     version: 1.0.3
-
+  SnapshotTesting:
+    url: https://github.com/pointfreeco/swift-snapshot-testing.git
+    version: 1.8.2
 targets:
   yumemi-ios-training:
     type: application
@@ -53,8 +55,16 @@ schemes:
         yumemi-ios-training: all
     run:
       config: Debug
+      environmentVariables:
+        - variable: SNAPSHOT_ARTIFACTS
+          value: $(SOURCE_ROOT)/$(PROJECT_NAME)Tests/__Snapshots__/Failure
+          isEnabled: true
     test:
       config: Debug
+      targets: 
+        - name: yumemi-ios-trainingTests
+          randomExecutionOrder: true
+          parallelizable: true
     profile:
       config: Release
     analyze:
