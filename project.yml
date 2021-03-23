@@ -7,11 +7,6 @@ options:
   developmentLanguage: ja
   xcodeVersion: "12.4"
 
-settings:
-  configs:
-    debug:
-      DEBUG_INFORMATION_FORMAT: "dwarf"
-
 packages:
   YumemiWeather:
     url: https://github.com/yumemi-inc/ios-training.git
@@ -26,7 +21,6 @@ targets:
     settings:
       base:
         INFOPLIST_FILE: yumemi-ios-training/Info.plist
-        DEVELOPMENT_LANGUAGE: jp
     dependencies:
       - package: YumemiWeather
         
