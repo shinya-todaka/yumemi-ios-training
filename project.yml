@@ -36,6 +36,11 @@ targets:
         INFOPLIST_FILE: yumemi-ios-trainingTests/Info.plist
     dependencies:
       - target: yumemi-ios-training
+      - package: SnapshotTesting
+    preBuildScripts:
+      - path: ./Scripts/XcodeGen/mockolo.sh
+        name: Generate Mocks with Mockolo
+        outputFiles:  $SRCROOT/yumemi-ios-trainingTests/Generated/MockResults.swift
 
   yumemi-ios-trainingUITests:
     type: bundle.ui-testing

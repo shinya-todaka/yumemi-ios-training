@@ -91,4 +91,8 @@ iOSInjectionProject/
 # XcodeGen
 
 *.xcodeproj
-*.xcworkspace 
+*.xcworkspace
+
+# Mockolo 
+
+yumemi-ios-trainingTests/Generated/* 
