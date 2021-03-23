@@ -16,7 +16,6 @@ class yumemi_ios_trainingTests: XCTestCase {
         let weatherMock = WeatherModelMock()
         
         let sunnyResponse: WeatherInfo = .init(weather: .sunny, maxTemp: 99, minTemp: -99, date: Date())
-        
         weatherMock.fetchWeatherHandler = { _ in
             return .success(sunnyResponse)
         }
@@ -31,7 +30,6 @@ class yumemi_ios_trainingTests: XCTestCase {
     func test_天気予報がcloudyだったら画面に曇り画像が表示されること() throws {
         
         let weatherMock = WeatherModelMock()
-        
         let cloudyResponse: WeatherInfo = .init(weather: .cloudy, maxTemp: 99, minTemp: -99, date: Date())
         
         weatherMock.fetchWeatherHandler = { _ in
@@ -48,7 +46,6 @@ class yumemi_ios_trainingTests: XCTestCase {
     func test_天気予報がrainyだったら画面に雨画像が表示されること() throws {
         
         let weatherMock = WeatherModelMock()
-        
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 99, minTemp: -99, date: Date())
         
         weatherMock.fetchWeatherHandler = { _ in
