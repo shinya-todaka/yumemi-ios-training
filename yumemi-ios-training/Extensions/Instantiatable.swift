@@ -22,3 +22,16 @@ public extension StoryboardInstantiatable {
         return storyboard.instantiateInitialViewController() as! Self
     }
 }
+
+public protocol Injectable {
+    associatedtype Dependency
+    func inject(_ dependency: Dependency)
+}
+
+public extension StoryboardInstantiatable where Self: Injectable {
+    static func instantiate(with dependency: Dependency) -> Self {
+        let vc = storyboard.instantiateInitialViewController() as! Self
+        vc.inject(dependency)
+        return vc
+    }
+}
