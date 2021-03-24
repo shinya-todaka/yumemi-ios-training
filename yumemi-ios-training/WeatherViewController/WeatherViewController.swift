@@ -51,12 +51,12 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
         let exampleRequest = WeatherRequest(area: "tokyo", date: Date())
         
         loadingIndicator.startAnimating()
-        weatherModel.fetchWeather(request: exampleRequest) { result in
+        weatherModel.fetchWeather(request: exampleRequest) { weatherInfo in
             
             DispatchQueue.main.async { [weak self] in
                 self?.loadingIndicator.stopAnimating()
             
-                if let weahterInfo = result {
+                if let weahterInfo = weatherInfo {
                     self?.configure(with: weahterInfo)
                 } else {
                     self?.showAlert(message: "データの取得に失敗しました")

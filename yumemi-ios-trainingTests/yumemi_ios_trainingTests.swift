@@ -68,7 +68,7 @@ class yumemi_ios_trainingTests: XCTestCase {
         let cloudyResponse: WeatherInfo = .init(weather: .cloudy, maxTemp: 99, minTemp: -99, date: Date())
         
         let exp = expectation(description: "wait fro completion")
-        weatherMock.fetchWeatherHandler = { _,completion in
+        weatherMock.fetchWeatherHandler = { _, completion in
             completion(cloudyResponse)
             DispatchQueue.main.async {
                 exp.fulfill()
@@ -118,7 +118,7 @@ class yumemi_ios_trainingTests: XCTestCase {
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 45, minTemp: -99, date: Date())
         
         let exp = expectation(description: "wait for completion")
-        weatherMock.fetchWeatherHandler = { _,completion in
+        weatherMock.fetchWeatherHandler = { _, completion in
             completion(rainyResponse)
             DispatchQueue.main.async {
                 exp.fulfill()
@@ -142,7 +142,7 @@ class yumemi_ios_trainingTests: XCTestCase {
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 99, minTemp: -45, date: Date())
         
         let exp = expectation(description: "wait for completion")
-        weatherMock.fetchWeatherHandler = { _,completion in
+        weatherMock.fetchWeatherHandler = { _, completion in
             completion(rainyResponse)
             DispatchQueue.main.async {
                 exp.fulfill()
