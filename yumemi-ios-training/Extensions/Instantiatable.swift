@@ -25,13 +25,18 @@ public extension StoryboardInstantiatable {
 
 public protocol Injectable {
     associatedtype Dependency
-    func inject(_ dependency: Dependency)
+    init?(coder: NSCoder, with dependency: Dependency)
 }
 
 public extension StoryboardInstantiatable where Self: Injectable {
+    
     static func instantiate(with dependency: Dependency) -> Self {
-        let vc = storyboard.instantiateInitialViewController() as! Self
-        vc.inject(dependency)
+        guard let vc = storyboard.instantiateInitialViewController(creator: { (coder) -> Self? in
+            return Self(coder: coder, with: dependency)
+        }) else {
+            fatalError("failed to load viewController from storyboard")
+        }
         return vc
     }
+    
 }

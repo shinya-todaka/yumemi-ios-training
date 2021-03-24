@@ -18,9 +18,14 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
     
     private var weatherModel: WeatherModel!
     
-    func inject(_ dependency: WeatherModel) {
-        self.weatherModel = dependency
-    }
+    init?(coder: NSCoder, with dependency: WeatherModel) {
+         self.weatherModel = dependency
+         super.init(coder: coder)
+     }
+
+     required init?(coder: NSCoder) {
+         fatalError("You must create this view controller with a user.")
+     }
     
     @IBAction func reloadWeatherAction(_ sender: Any) {
         reloadWeather()
