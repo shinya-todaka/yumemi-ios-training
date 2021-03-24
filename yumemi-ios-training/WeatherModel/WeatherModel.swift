@@ -7,5 +7,8 @@
 
 /// @mockable
 protocol WeatherModel: AnyObject {
-    func fetchWeather(request: WeatherRequest, completion: @escaping (WeatherInfo?) -> Void)
+    var delegate: WeatherModelDelegate? { get set }
+    func fetchWeather(request: WeatherRequest)
 }
+
+

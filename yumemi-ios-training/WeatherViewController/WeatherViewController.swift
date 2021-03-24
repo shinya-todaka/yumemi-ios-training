@@ -29,6 +29,7 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
         weatherModel = dependency.weatherModel
         scheduler = dependency.scheduler
         super.init(coder: coder)
+        weatherModel.delegate = self
     }
 
     required init?(coder: NSCoder) {
@@ -58,18 +59,7 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
         let exampleRequest = WeatherRequest(area: "tokyo", date: Date())
         
         loadingIndicator.startAnimating()
-        weatherModel.fetchWeather(request: exampleRequest) { [weak self] weatherInfo in
-            
-            self?.scheduler.runOnMainThread { 
-                self?.loadingIndicator.stopAnimating()
-            
-                if let weahterInfo = weatherInfo {
-                    self?.configure(with: weahterInfo)
-                } else {
-                    self?.showAlert(message: "データの取得に失敗しました")
-                }
-            }
-        }
+        weatherModel.fetchWeather(request: exampleRequest)
     }
     
     private func configure(with weatherInfo: WeatherInfo) {
@@ -83,6 +73,23 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
         let alert = UIAlertController(title: "エラー", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+    
+}
+
+extension WeatherViewController: WeatherModelDelegate {
+    
+    func didChange(weatherInfo: WeatherInfo?) {
+        
+        scheduler.runOnMainThread{ [weak self] in
+            self?.loadingIndicator.stopAnimating()
+        
+            if let weahterInfo = weatherInfo {
+                self?.configure(with: weahterInfo)
+            } else {
+                self?.showAlert(message: "データの取得に失敗しました")
+            }
+        }
     }
 }
 
