@@ -27,7 +27,7 @@ class WeatherInfoTest: XCTestCase {
         return try? decoder.decode(WeatherInfo.self, from: data!)
     }
     
-    func test_JSONParsing_WithFullData_SwiftDecodable() {
+    func test_JSONParsing_WithFullData_SwiftDecodable() throws {
         let json = """
         {
           "weather": "sunny",
@@ -40,9 +40,12 @@ class WeatherInfoTest: XCTestCase {
         let weatherInfo = decodeUsingDateFormatter(json: json)
         
         XCTAssertNotNil(weatherInfo)
-        XCTAssertEqual(weatherInfo!.weather.rawValue, "sunny")
-        XCTAssertEqual(weatherInfo!.maxTemp, 28)
-        XCTAssertEqual(weatherInfo!.date, dateFormatter.date(from: "2020-04-01T12:00:00+09:00"))
+        
+        let notNilWeatherInfo = try XCTUnwrap(weatherInfo)
+        
+        XCTAssertEqual(notNilWeatherInfo.weather.rawValue, "sunny")
+        XCTAssertEqual(notNilWeatherInfo.maxTemp, 28)
+        XCTAssertEqual(notNilWeatherInfo.date, dateFormatter.date(from: "2020-04-01T12:00:00+09:00"))
     }
     
     func test_JSONParsing_WithPartialData() {
