@@ -15,6 +15,7 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
     @IBOutlet private weak var reloadButton: UIButton!
     @IBOutlet private weak var minTempLabel: UILabel!
     @IBOutlet private weak var maxTempLabel: UILabel!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     private var weatherModel: WeatherModel!
     
@@ -49,12 +50,18 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
     @objc private func reloadWeather() {
         let exampleRequest = WeatherRequest(area: "tokyo", date: Date())
         
-        switch weatherModel.fetchWeather(request: exampleRequest) {
-            case let .success(weatherInfo):
-                configure(with: weatherInfo)
-                
-            case let .failure(error):
-                showAlert(message: error.errorDescription)
+        loadingIndicator.startAnimating()
+        weatherModel.fetchWeather(request: exampleRequest) { result in
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.loadingIndicator.stopAnimating()
+            
+                if let weahterInfo = result {
+                    self?.configure(with: weahterInfo)
+                } else {
+                    self?.showAlert(message: "データの取得に失敗しました")
+                }
+            }
         }
     }
     

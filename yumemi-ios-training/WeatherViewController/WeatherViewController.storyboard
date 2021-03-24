@@ -60,6 +60,9 @@
                                     <action selector="reloadWeatherAction:" destination="CoQ-YS-WvN" eventType="touchUpInside" id="kAu-qT-WS9"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ta8-8b-ufo">
+                                <rect key="frame" x="197" y="607" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PRV-cP-cyj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -68,13 +71,16 @@
                             <constraint firstItem="uEB-c9-o6q" firstAttribute="centerY" secondItem="PRV-cP-cyj" secondAttribute="centerY" id="5YK-Wl-xRv"/>
                             <constraint firstItem="Ugw-ZJ-l05" firstAttribute="top" secondItem="rn9-x5-Jip" secondAttribute="bottom" constant="80" id="DMQ-2l-irg"/>
                             <constraint firstItem="ddG-gE-vFR" firstAttribute="centerX" secondItem="AVL-Jh-8Lq" secondAttribute="centerX" id="OM4-dB-wmR"/>
+                            <constraint firstItem="ta8-8b-ufo" firstAttribute="centerX" secondItem="PRV-cP-cyj" secondAttribute="centerX" id="W28-o1-nwX"/>
                             <constraint firstItem="AcO-Bj-bcX" firstAttribute="width" secondItem="tas-hl-ooO" secondAttribute="width" multiplier="1:2" id="mGq-3h-ctS"/>
                             <constraint firstItem="uEB-c9-o6q" firstAttribute="centerX" secondItem="PRV-cP-cyj" secondAttribute="centerX" id="n1N-q7-V07"/>
                             <constraint firstItem="Ugw-ZJ-l05" firstAttribute="centerX" secondItem="rn9-x5-Jip" secondAttribute="centerX" id="ogd-Ct-oc7"/>
+                            <constraint firstItem="ta8-8b-ufo" firstAttribute="top" secondItem="AVL-Jh-8Lq" secondAttribute="bottom" constant="40" id="vfZ-17-L8Q"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="closeButton" destination="Ugw-ZJ-l05" id="vQK-um-ORp"/>
+                        <outlet property="loadingIndicator" destination="ta8-8b-ufo" id="v8K-o5-YzW"/>
                         <outlet property="maxTempLabel" destination="AVL-Jh-8Lq" id="0LD-4i-pCY"/>
                         <outlet property="minTempLabel" destination="rn9-x5-Jip" id="g5C-Qc-jx9"/>
                         <outlet property="reloadButton" destination="ddG-gE-vFR" id="Hz7-rq-1xM"/>
