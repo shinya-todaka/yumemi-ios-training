@@ -6,6 +6,6 @@
 //
 
 /// @mockable
-protocol WeatherModel {
+protocol WeatherModel: AnyObject {
     func fetchWeather(request: WeatherRequest) -> Result<WeatherInfo, FetchWeatherError>
 }
