@@ -11,26 +11,32 @@ import SnapshotTesting
 
 class WeatherRequestTest: XCTestCase {
     
-    private let dateFormatter: DateFormatter = {
+    private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .gregorian)
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         return formatter
     }()
     
-    func test_JSONEncoding_WithFullData() throws {
-        let date = Date()
-        let request = WeatherRequest(area: "tokyo", date: date)
-        
+    private static let encoder: JSONEncoder = {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(dateFormatter)
+        return encoder
+    }()
+    
+    func test_JSONEncoding_WithFullData() throws {
+        let date = Date()
+        let dateString = Self.dateFormatter.string(from: date)
         
-        let weatherRequestData = try encoder.encode(request)
-        let weatherRequestJson = try JSONSerialization.jsonObject(with: weatherRequestData, options: .mutableContainers)
+        let request = WeatherRequest(area: "tokyo", date: date)
         
-        let weatherRequestDictionary = try XCTUnwrap(weatherRequestJson as? [String: Any])
+        let expectedJson = """
+        {
+            "area": "tokyo",
+            "date": "\(dateString)"
+        }
+        """
         
-        XCTAssertEqual(weatherRequestDictionary["area"] as? String, "tokyo")
-        XCTAssertEqual(weatherRequestDictionary["date"] as? String, dateFormatter.string(from: date))
+        testEncoding(object: request, encoder: Self.encoder, expectedJsonString: expectedJson)
     }
 }
