@@ -8,13 +8,24 @@
 import UIKit
 import YumemiWeather
 
-final class WeatherViewController: UIViewController, StoryboardInstantiatable {
+final class WeatherViewController: UIViewController, StoryboardInstantiatable, Injectable {
     
     @IBOutlet private weak var weatherImageView: UIImageView!
     @IBOutlet private weak var closeButton: UIButton!
     @IBOutlet private weak var reloadButton: UIButton!
     @IBOutlet private weak var minTempLabel: UILabel!
     @IBOutlet private weak var maxTempLabel: UILabel!
+    
+    private var weatherModel: WeatherModel!
+    
+    init?(coder: NSCoder, with dependency: WeatherModel) {
+         self.weatherModel = dependency
+         super.init(coder: coder)
+     }
+
+     required init?(coder: NSCoder) {
+         fatalError("You must create this view controller with a user.")
+     }
     
     @IBAction func reloadWeatherAction(_ sender: Any) {
         reloadWeather()
@@ -35,54 +46,16 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadWeather), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .gregorian)
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        return formatter
-    }()
-    
     @objc private func reloadWeather() {
         let exampleRequest = WeatherRequest(area: "tokyo", date: Date())
         
-        switch fetchWeather(request: exampleRequest) {
-        case let .success(weatherInfo):
-            configure(with: weatherInfo)
-            
-        case let .failure(error):
-            showAlert(message: error.errorDescription)
+        switch weatherModel.fetchWeather(request: exampleRequest) {
+            case let .success(weatherInfo):
+                configure(with: weatherInfo)
+                
+            case let .failure(error):
+                showAlert(message: error.errorDescription)
         }
-    }
-    
-    private func fetchWeather(request: WeatherRequest) -> Result<WeatherInfo, FetchWeatherError> {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .formatted(dateFormatter)
-        
-        guard let requestData = try? encoder.encode(request),
-              let jsonString = String(data: requestData, encoding: .utf8) else {
-            return .failure(.encodeRequestError)
-        }
-        
-        let jsonResponseString: String
-        
-        do {
-            jsonResponseString = try YumemiWeather.fetchWeather(jsonString)
-        } catch let error as YumemiWeatherError {
-            return .failure(.apiError(error))
-        } catch {
-            return .failure(.unknownError)
-        }
-        
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(dateFormatter)
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
-        guard let responseData = jsonResponseString.data(using: .utf8),
-              let weatherInfo = try? decoder.decode(WeatherInfo.self, from: responseData) else {
-            return .failure(.decodeResponseError)
-        }
-        
-        return .success(weatherInfo)
     }
     
     private func configure(with weatherInfo: WeatherInfo) {
