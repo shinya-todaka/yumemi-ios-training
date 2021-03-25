@@ -40,11 +40,12 @@ final class WeatherModelImpl: WeatherModel {
             do {
                 let jsonResponseString = try YumemiWeather.syncFetchWeather(jsonString)
             
-                guard let responseData = jsonResponseString.data(using: .utf8),
-                    let weatherInfo = try? self?.decoder.decode(WeatherInfo.self, from: responseData) else {
+                guard let responseData = jsonResponseString.data(using: .utf8) else {
                     completion(nil)
                     return
                 }
+                
+                let weatherInfo = try self?.decoder.decode(WeatherInfo.self, from: responseData)
                 completion(weatherInfo)
             } catch {
                 completion(nil)
