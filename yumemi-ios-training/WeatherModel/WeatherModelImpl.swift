@@ -10,29 +10,25 @@ import YumemiWeather
 
 final class WeatherModelImpl: WeatherModel {
     
-    private static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .gregorian)
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        return formatter
-    }()
+    private let encoder: JSONEncoder
+    private let decoder: JSONDecoder
     
-    private static let encoder: JSONEncoder = {
-        let encoder = JSONEncoder()
+    init() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.calendar = Calendar(identifier: .gregorian)
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        
+        encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(dateFormatter)
-        return encoder
-    }()
-    
-    private static let decoder: JSONDecoder = {
-        let decoder = JSONDecoder()
+        
+        decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return decoder
-    }()
+    }
     
     func fetchWeather(request: WeatherRequest) -> Result<WeatherInfo, FetchWeatherError> {
         
-        guard let requestData = try? Self.encoder.encode(request),
+        guard let requestData = try? encoder.encode(request),
               let jsonString = String(data: requestData, encoding: .utf8) else {
             return .failure(.encodeRequestError)
         }
@@ -46,7 +42,7 @@ final class WeatherModelImpl: WeatherModel {
                 return .failure(.unknownError)
             }
             
-            let weatherInfo = try Self.decoder.decode(WeatherInfo.self, from: responseData)
+            let weatherInfo = try decoder.decode(WeatherInfo.self, from: responseData)
             
             return .success(weatherInfo)
             

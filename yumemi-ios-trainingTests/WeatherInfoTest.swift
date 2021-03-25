@@ -11,19 +11,22 @@ import SnapshotTesting
 
 class WeatherInfoTest: XCTestCase {
     
-    private static let dateFormatter: DateFormatter = {
+    private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .gregorian)
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         return formatter
     }()
     
-    private static let decoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
+    private var decoder: JSONDecoder!
+
+    override func setUp() {
+        super.setUp()
+        
+        decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
-        return decoder
-    }()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+    }
     
     func test_JSONParsing_WithFullData_SwiftDecodable() throws {
         let json = """
@@ -35,11 +38,11 @@ class WeatherInfoTest: XCTestCase {
         }
         """
         
-        let expectedDate = Self.dateFormatter.date(from: "2020-04-01T12:00:00+09:00")
+        let expectedDate = dateFormatter.date(from: "2020-04-01T12:00:00+09:00")
         XCTAssertNotNil(expectedDate)
         
         let expected = WeatherInfo(weather: .sunny, maxTemp: 28, minTemp: 4, date: expectedDate!)
-        testDecoding(expectedObject: expected, decoder: Self.decoder, json: json)
+        testDecoding(expectedObject: expected, decoder: decoder, json: json)
     }
     
     func test_JSONParsing_WithPartialData() {
@@ -51,7 +54,7 @@ class WeatherInfoTest: XCTestCase {
         
         let data = json.data(using: .utf8)
         XCTAssertNotNil(data)
-        XCTAssertThrowsError(try Self.decoder.decode(WeatherInfo.self, from: data!))
+        XCTAssertThrowsError(try decoder.decode(WeatherInfo.self, from: data!))
     }
     
     func test_JSONParsing_WithIncorrectWeather_SwiftDecodable() {
@@ -66,8 +69,7 @@ class WeatherInfoTest: XCTestCase {
         
         let data = json.data(using: .utf8)
         XCTAssertNotNil(data)
-        
-        XCTAssertThrowsError(try Self.decoder.decode(WeatherInfo.self, from: data!))
+        XCTAssertThrowsError(try decoder.decode(WeatherInfo.self, from: data!))
     }
     
     func test_JSONParsing_WithIncorrectDate_SwiftDecodable() {
@@ -82,7 +84,6 @@ class WeatherInfoTest: XCTestCase {
         
         let data = json.data(using: .utf8)
         XCTAssertNotNil(data)
-        
-        XCTAssertThrowsError(try Self.decoder.decode(WeatherInfo.self, from: data!))
+        XCTAssertThrowsError(try decoder.decode(WeatherInfo.self, from: data!))
     }
 }

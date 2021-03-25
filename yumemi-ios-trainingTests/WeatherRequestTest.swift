@@ -11,22 +11,25 @@ import SnapshotTesting
 
 class WeatherRequestTest: XCTestCase {
     
-    private static let dateFormatter: DateFormatter = {
+    private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .gregorian)
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         return formatter
     }()
     
-    private static let encoder: JSONEncoder = {
-        let encoder = JSONEncoder()
+    private var encoder: JSONEncoder!
+    
+    override func setUp() {
+        super.setUp()
+        
+        encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(dateFormatter)
-        return encoder
-    }()
+    }
     
     func test_JSONEncoding_WithFullData() throws {
         let date = Date()
-        let dateString = Self.dateFormatter.string(from: date)
+        let dateString = dateFormatter.string(from: date)
         
         let request = WeatherRequest(area: "tokyo", date: date)
         
@@ -37,6 +40,6 @@ class WeatherRequestTest: XCTestCase {
         }
         """
         
-        testEncoding(object: request, encoder: Self.encoder, expectedJsonString: expectedJson)
+        testEncoding(object: request, encoder: encoder, expectedJsonString: expectedJson)
     }
 }
