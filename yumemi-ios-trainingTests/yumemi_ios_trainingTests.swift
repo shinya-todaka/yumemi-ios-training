@@ -11,6 +11,32 @@ import SnapshotTesting
 
 class yumemi_ios_trainingTests: XCTestCase {
 
+    func getwWeatherImage(viewController: UIViewController) -> UIImage? {
+        let stackView = viewController.view.subviews
+            .compactMap { $0 as? UIStackView }
+            .first!
+
+        let imageView = stackView.arrangedSubviews
+            .compactMap { $0 as? UIImageView }
+            .first!
+        
+        return imageView.image
+    }
+    
+    func getTempLabel(viewController: UIViewController, accessibilityIdentifier: String) -> UILabel {
+        let childStackView = viewController.view.subviews
+            .compactMap { $0 as? UIStackView }
+            .first!.arrangedSubviews
+            .compactMap { $0 as? UIStackView }
+            .first!
+        
+        let tempLabel = childStackView.arrangedSubviews
+            .filter { $0.accessibilityIdentifier == accessibilityIdentifier }
+            .first as! UILabel
+        
+        return tempLabel
+    }
+    
     func test_天気予報がsunnyだったら画面に晴れ画像が表示されること() throws {
         
         let weatherMock = WeatherModelMock()
@@ -23,8 +49,11 @@ class yumemi_ios_trainingTests: XCTestCase {
         let viewController = WeatherViewController.instantiate(with: weatherMock)
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
-        
-        assertSnapshot(matching: viewController, as: .image)
+       
+        let weatherImage = getwWeatherImage(viewController: viewController)
+        let expectedImage = UIImage(named: "iconmonstr-weather-1")!.withTintColor(.systemRed)
+
+        XCTAssertEqual(weatherImage, expectedImage)
     }
     
     func test_天気予報がcloudyだったら画面に曇り画像が表示されること() throws {
@@ -40,7 +69,10 @@ class yumemi_ios_trainingTests: XCTestCase {
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
         
-        assertSnapshot(matching: viewController, as: .image)
+        let weatherImage = getwWeatherImage(viewController: viewController)
+        let expectedImage = UIImage(named: "iconmonstr-weather-11")!.withTintColor(.systemGray)
+        
+        XCTAssertEqual(weatherImage, expectedImage)
     }
     
     func test_天気予報がrainyだったら画面に雨画像が表示されること() throws {
@@ -55,8 +87,11 @@ class yumemi_ios_trainingTests: XCTestCase {
         let viewController = WeatherViewController.instantiate(with: weatherMock)
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
+    
+        let weatherImage = getwWeatherImage(viewController: viewController)
+        let expectedImage = UIImage(named: "iconmonstr-umbrella-1")!.withTintColor(.systemBlue)
         
-        assertSnapshot(matching: viewController, as: .image)
+        XCTAssertEqual(weatherImage, expectedImage)
     }
     
     func test_天気予報の最高気温がUILabelに反映されること() throws {
@@ -72,15 +107,7 @@ class yumemi_ios_trainingTests: XCTestCase {
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
         
-        let childStackView = viewController.view.subviews
-            .compactMap { $0 as? UIStackView }
-            .first!.arrangedSubviews
-            .compactMap { $0 as? UIStackView }
-            .first!
-        
-        let maxTempLabel = childStackView.arrangedSubviews
-            .filter { $0.accessibilityIdentifier == "maxTempLabel" }
-            .first as! UILabel
+        let maxTempLabel = getTempLabel(viewController: viewController, accessibilityIdentifier: "maxTempLabel")
         
         XCTAssertEqual(maxTempLabel.text, "\(rainyResponse.maxTemp)")
     }
@@ -97,16 +124,8 @@ class yumemi_ios_trainingTests: XCTestCase {
         let viewController = WeatherViewController.instantiate(with: weatherMock)
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
-        
-        let childStackView = viewController.view.subviews
-            .compactMap { $0 as? UIStackView }
-            .first!.arrangedSubviews
-            .compactMap { $0 as? UIStackView }
-            .first!
-        
-        let minTempLabel = childStackView.arrangedSubviews
-            .filter { $0.accessibilityIdentifier == "minTempLabel" }
-            .first as! UILabel
+    
+        let minTempLabel = getTempLabel(viewController: viewController, accessibilityIdentifier: "minTempLabel")
         
         XCTAssertEqual(minTempLabel.text, "\(rainyResponse.minTemp)")
     }

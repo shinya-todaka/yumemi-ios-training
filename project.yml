@@ -11,9 +11,6 @@ packages:
   YumemiWeather:
     url: https://github.com/yumemi-inc/ios-training.git
     version: 1.0.3
-  SnapshotTesting:
-    url: https://github.com/pointfreeco/swift-snapshot-testing.git
-    version: 1.8.2
 targets:
   yumemi-ios-training:
     type: application
@@ -36,7 +33,6 @@ targets:
         INFOPLIST_FILE: yumemi-ios-trainingTests/Info.plist
     dependencies:
       - target: yumemi-ios-training
-      - package: SnapshotTesting
     preBuildScripts:
       - path: ./Scripts/XcodeGen/mockolo.sh
         name: Generate Mocks with Mockolo
@@ -59,10 +55,6 @@ schemes:
         yumemi-ios-training: all
     run:
       config: Debug
-      environmentVariables:
-        - variable: SNAPSHOT_ARTIFACTS
-          value: $(SOURCE_ROOT)/$(PROJECT_NAME)Tests/__Snapshots__/Failure
-          isEnabled: true
     test:
       config: Debug
       targets: 
