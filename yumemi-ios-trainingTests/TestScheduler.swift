@@ -7,7 +7,7 @@
 
 @testable import yumemi_ios_training
 
-class TestScheduler: SchedulerObject {
+final class TestScheduler: SchedulerObject {
     func runOnMainThread(_ block: @escaping () -> Void) {
         block()
     }
