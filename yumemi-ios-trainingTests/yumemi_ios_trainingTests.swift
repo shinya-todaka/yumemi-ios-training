@@ -42,19 +42,15 @@ class yumemi_ios_trainingTests: XCTestCase {
         let weatherMock = WeatherModelMock()
         let sunnyResponse: WeatherInfo = .init(weather: .sunny, maxTemp: 99, minTemp: -99, date: Date())
         
-        let exp = expectation(description: "wait for completion")
         weatherMock.fetchWeatherHandler = { _, completion in
             completion(sunnyResponse)
-            DispatchQueue.main.async {
-                exp.fulfill()
-            }
         }
         
-        let viewController = WeatherViewController.instantiate(with: weatherMock)
+        let testScheduler = TestScheduler()
+        
+        let viewController = WeatherViewController.instantiate(with: .init(weatherModel: weatherMock, scheduler: testScheduler))
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
-        
-        wait(for: [exp], timeout: 5.0)
 
         let weatherImage = getwWeatherImage(viewController: viewController)
         let expectedImage = UIImage(named: "iconmonstr-weather-1")!.withTintColor(.systemRed)
@@ -67,19 +63,15 @@ class yumemi_ios_trainingTests: XCTestCase {
         let weatherMock = WeatherModelMock()
         let cloudyResponse: WeatherInfo = .init(weather: .cloudy, maxTemp: 99, minTemp: -99, date: Date())
         
-        let exp = expectation(description: "wait fro completion")
         weatherMock.fetchWeatherHandler = { _, completion in
             completion(cloudyResponse)
-            DispatchQueue.main.async {
-                exp.fulfill()
-            }
         }
         
-        let viewController = WeatherViewController.instantiate(with: weatherMock)
+        let testScheduler = TestScheduler()
+        
+        let viewController = WeatherViewController.instantiate(with: .init(weatherModel: weatherMock, scheduler: testScheduler))
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
-        
-        wait(for: [exp], timeout: 5.0)
 
         let weatherImage = getwWeatherImage(viewController: viewController)
         let expectedImage = UIImage(named: "iconmonstr-weather-11")!.withTintColor(.systemGray)
@@ -92,19 +84,15 @@ class yumemi_ios_trainingTests: XCTestCase {
         let weatherMock = WeatherModelMock()
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 99, minTemp: -99, date: Date())
         
-        let exp = expectation(description: "wait for completion")
         weatherMock.fetchWeatherHandler = { _, completion in
             completion(rainyResponse)
-            DispatchQueue.main.async {
-                exp.fulfill()
-            }
         }
         
-        let viewController = WeatherViewController.instantiate(with: weatherMock)
+        let testScheduler = TestScheduler()
+        
+        let viewController = WeatherViewController.instantiate(with: .init(weatherModel: weatherMock, scheduler: testScheduler))
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
-        
-        wait(for: [exp], timeout: 5.0)
     
         let weatherImage = getwWeatherImage(viewController: viewController)
         let expectedImage = UIImage(named: "iconmonstr-umbrella-1")!.withTintColor(.systemBlue)
@@ -117,22 +105,17 @@ class yumemi_ios_trainingTests: XCTestCase {
         
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 45, minTemp: -99, date: Date())
         
-        let exp = expectation(description: "wait for completion")
         weatherMock.fetchWeatherHandler = { _, completion in
             completion(rainyResponse)
-            DispatchQueue.main.async {
-                exp.fulfill()
-            }
         }
         
-        let viewController = WeatherViewController.instantiate(with: weatherMock)
+        let testScheduler = TestScheduler()
+        let viewController = WeatherViewController.instantiate(with: .init(weatherModel: weatherMock, scheduler: testScheduler))
+        
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
         
-        wait(for: [exp], timeout: 5.0)
-        
         let maxTempLabel = getTempLabel(viewController: viewController, accessibilityIdentifier: "maxTempLabel")
-        
         XCTAssertEqual(maxTempLabel.text, "\(rainyResponse.maxTemp)")
     }
     
@@ -141,22 +124,17 @@ class yumemi_ios_trainingTests: XCTestCase {
         
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 99, minTemp: -45, date: Date())
         
-        let exp = expectation(description: "wait for completion")
         weatherMock.fetchWeatherHandler = { _, completion in
             completion(rainyResponse)
-            DispatchQueue.main.async {
-                exp.fulfill()
-            }
         }
         
-        let viewController = WeatherViewController.instantiate(with: weatherMock)
+        let testScheduler = TestScheduler()
+        
+        let viewController = WeatherViewController.instantiate(with: .init(weatherModel: weatherMock, scheduler: testScheduler))
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
 
-        wait(for: [exp], timeout: 5.0)
-    
         let minTempLabel = getTempLabel(viewController: viewController, accessibilityIdentifier: "minTempLabel")
-        
         XCTAssertEqual(minTempLabel.text, "\(rainyResponse.minTemp)")
     }
 }
