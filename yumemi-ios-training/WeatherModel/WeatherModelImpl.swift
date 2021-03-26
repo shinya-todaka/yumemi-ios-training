@@ -14,6 +14,7 @@ final class WeatherModelImpl: WeatherModel {
     private let decoder: JSONDecoder
     
     private let queue = DispatchQueue.global(qos: .userInitiated)
+    weak var delegate: WeatherModelDelegate?
     
     init() {
         let dateFormatter = DateFormatter()
@@ -22,33 +23,33 @@ final class WeatherModelImpl: WeatherModel {
         
         encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(dateFormatter)
-        
+    
         decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
-    
-    func fetchWeather(request: WeatherRequest, completion: @escaping (WeatherInfo?) -> Void){
-        
+
+    func fetchWeather(request: WeatherRequest){
         guard let requestData = try? encoder.encode(request),
               let jsonString = String(data: requestData, encoding: .utf8) else {
-            completion(nil)
-            return 
+            delegate?.didChange(weatherInfo: nil)
+            return
         }
         
         queue.async { [weak self] in
+            guard let self = self else { return }
             do {
                 let jsonResponseString = try YumemiWeather.syncFetchWeather(jsonString)
             
                 guard let responseData = jsonResponseString.data(using: .utf8) else {
-                    completion(nil)
+                    self.delegate?.didChange(weatherInfo: nil)
                     return
                 }
                 
-                let weatherInfo = try self?.decoder.decode(WeatherInfo.self, from: responseData)
-                completion(weatherInfo)
+                let weatherInfo = try self.decoder.decode(WeatherInfo.self, from: responseData)
+                self.delegate?.didChange(weatherInfo: weatherInfo)
             } catch {
-                completion(nil)
+                self.delegate?.didChange(weatherInfo: nil)
             }
         }
     }

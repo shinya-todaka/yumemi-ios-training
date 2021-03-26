@@ -28,6 +28,9 @@ targets:
     platform: iOS
     sources:
       - yumemi-ios-trainingTests
+      - path: "yumemi-ios-trainingTests/Generated/MockResults.swift"
+        optional: true
+        createIntermediateGroups: true
     settings:
       base:
         INFOPLIST_FILE: yumemi-ios-trainingTests/Info.plist
@@ -36,6 +39,8 @@ targets:
     preBuildScripts:
       - path: ./Scripts/XcodeGen/mockolo.sh
         name: Generate Mocks with Mockolo
+        outputFiles:
+          - yumemi-ios-trainingTests/Generated/MockResults.swift
 
   yumemi-ios-trainingUITests:
     type: bundle.ui-testing
