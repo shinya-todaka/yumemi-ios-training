@@ -37,17 +37,19 @@ final class WeatherModelImpl: WeatherModel {
         }
         
         queue.async { [weak self] in
+            guard let self = self else { return }
+            
             guard let jsonResponseString = try? YumemiWeather.syncFetchWeather(jsonString) else {
-                self?.delegate?.didChange(weatherInfo: nil)
+                self.delegate?.didChange(weatherInfo: nil)
                 return
             }
             
             guard let responseData = jsonResponseString.data(using: .utf8),
-                  let weatherInfo = try? self?.decoder.decode(WeatherInfo.self, from: responseData) else {
-                self?.delegate?.didChange(weatherInfo: nil)
+                  let weatherInfo = try? self.decoder.decode(WeatherInfo.self, from: responseData) else {
+                self.delegate?.didChange(weatherInfo: nil)
                 return
             }
-            self?.delegate?.didChange(weatherInfo: weatherInfo)
+            self.delegate?.didChange(weatherInfo: weatherInfo)
         }
     }
 }
