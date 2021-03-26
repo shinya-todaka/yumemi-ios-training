@@ -18,9 +18,16 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     private var weatherModel: WeatherModel!
+    private var scheduler: SchedulerObject!
     
-    init?(coder: NSCoder, with dependency: WeatherModel) {
-         self.weatherModel = dependency
+    struct Dependency {
+        let weatherModel: WeatherModel
+        let scheduler: SchedulerObject
+    }
+    
+    init?(coder: NSCoder, with dependency: Dependency) {
+         weatherModel = dependency.weatherModel
+         scheduler = dependency.scheduler
          super.init(coder: coder)
      }
 
@@ -51,9 +58,9 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
         let exampleRequest = WeatherRequest(area: "tokyo", date: Date())
         
         loadingIndicator.startAnimating()
-        weatherModel.fetchWeather(request: exampleRequest) { weatherInfo in
+        weatherModel.fetchWeather(request: exampleRequest) { [weak self] weatherInfo in
             
-            DispatchQueue.main.async { [weak self] in
+            self?.scheduler.runOnMainThread { 
                 self?.loadingIndicator.stopAnimating()
             
                 if let weahterInfo = weatherInfo {

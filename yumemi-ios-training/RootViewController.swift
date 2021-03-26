@@ -13,7 +13,10 @@ class RootViewController: UIViewController {
         super.viewDidAppear(animated)
         
         let weatherModelImpl = WeatherModelImpl()
-        let weatherViewController = WeatherViewController.instantiate(with: weatherModelImpl)
+        let scheduler = Scheduler()
+        let dependency = WeatherViewController.Dependency(weatherModel: weatherModelImpl, scheduler: scheduler)
+        
+        let weatherViewController = WeatherViewController.instantiate(with: dependency)
         weatherViewController.modalPresentationStyle = .fullScreen
         present(weatherViewController, animated: true, completion: nil)
     }
