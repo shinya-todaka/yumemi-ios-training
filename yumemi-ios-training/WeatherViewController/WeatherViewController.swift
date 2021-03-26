@@ -26,14 +26,14 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
     }
     
     init?(coder: NSCoder, with dependency: Dependency) {
-         weatherModel = dependency.weatherModel
-         scheduler = dependency.scheduler
-         super.init(coder: coder)
-     }
+        weatherModel = dependency.weatherModel
+        scheduler = dependency.scheduler
+        super.init(coder: coder)
+    }
 
-     required init?(coder: NSCoder) {
-         fatalError("You must create this view controller with a user.")
-     }
+    required init?(coder: NSCoder) {
+        fatalError("You must create this view controller with a user.")
+    }
     
     @IBAction func reloadWeatherAction(_ sender: Any) {
         reloadWeather()
