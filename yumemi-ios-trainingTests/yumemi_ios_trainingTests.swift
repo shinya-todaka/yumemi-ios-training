@@ -41,8 +41,8 @@ class yumemi_ios_trainingTests: XCTestCase {
         let weatherMock = WeatherModelMock()
         let sunnyResponse: WeatherInfo = .init(weather: .sunny, maxTemp: 99, minTemp: -99, date: Date())
         
-        weatherMock.fetchWeatherHandler = { _, completion in
-            completion(sunnyResponse)
+        weatherMock.fetchWeatherHandler = { _ in
+            weatherMock.delegate?.didChange(weatherInfo: sunnyResponse)
         }
         
         let testScheduler = TestScheduler()
@@ -61,8 +61,8 @@ class yumemi_ios_trainingTests: XCTestCase {
         let weatherMock = WeatherModelMock()
         let cloudyResponse: WeatherInfo = .init(weather: .cloudy, maxTemp: 99, minTemp: -99, date: Date())
         
-        weatherMock.fetchWeatherHandler = { _, completion in
-            completion(cloudyResponse)
+        weatherMock.fetchWeatherHandler = { _ in
+            weatherMock.delegate?.didChange(weatherInfo: cloudyResponse)
         }
         
         let testScheduler = TestScheduler()
@@ -81,8 +81,8 @@ class yumemi_ios_trainingTests: XCTestCase {
         let weatherMock = WeatherModelMock()
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 99, minTemp: -99, date: Date())
         
-        weatherMock.fetchWeatherHandler = { _, completion in
-            completion(rainyResponse)
+        weatherMock.fetchWeatherHandler = { _ in
+            weatherMock.delegate?.didChange(weatherInfo: rainyResponse)
         }
         
         let testScheduler = TestScheduler()
@@ -101,8 +101,8 @@ class yumemi_ios_trainingTests: XCTestCase {
         let weatherMock = WeatherModelMock()
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 45, minTemp: -99, date: Date())
         
-        weatherMock.fetchWeatherHandler = { _, completion in
-            completion(rainyResponse)
+        weatherMock.fetchWeatherHandler = { _ in
+            weatherMock.delegate?.didChange(weatherInfo: rainyResponse)
         }
         
         let testScheduler = TestScheduler()
@@ -119,8 +119,8 @@ class yumemi_ios_trainingTests: XCTestCase {
         let weatherMock = WeatherModelMock()
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 99, minTemp: -45, date: Date())
         
-        weatherMock.fetchWeatherHandler = { _, completion in
-            completion(rainyResponse)
+        weatherMock.fetchWeatherHandler = { _ in
+            weatherMock.delegate?.didChange(weatherInfo: rainyResponse)
         }
         
         let testScheduler = TestScheduler()
