@@ -13,6 +13,8 @@ final class WeatherModelImpl: WeatherModel {
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
     
+    private let queue = DispatchQueue.global(qos: .userInitiated)
+    
     init() {
         let dateFormatter = DateFormatter()
         dateFormatter.calendar = Calendar(identifier: .gregorian)
@@ -26,30 +28,28 @@ final class WeatherModelImpl: WeatherModel {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
     
-    func fetchWeather(request: WeatherRequest) -> Result<WeatherInfo, FetchWeatherError> {
+    func fetchWeather(request: WeatherRequest, completion: @escaping (WeatherInfo?) -> Void){
         
         guard let requestData = try? encoder.encode(request),
               let jsonString = String(data: requestData, encoding: .utf8) else {
-            return .failure(.encodeRequestError)
+            completion(nil)
+            return 
         }
         
-        let jsonResponseString: String
-        
-        do {
-            jsonResponseString = try YumemiWeather.fetchWeather(jsonString)
+        queue.async { [weak self] in
+            do {
+                let jsonResponseString = try YumemiWeather.syncFetchWeather(jsonString)
             
-            guard let responseData = jsonResponseString.data(using: .utf8) else {
-                return .failure(.unknownError)
+                guard let responseData = jsonResponseString.data(using: .utf8) else {
+                    completion(nil)
+                    return
+                }
+                
+                let weatherInfo = try self?.decoder.decode(WeatherInfo.self, from: responseData)
+                completion(weatherInfo)
+            } catch {
+                completion(nil)
             }
-            
-            let weatherInfo = try decoder.decode(WeatherInfo.self, from: responseData)
-            
-            return .success(weatherInfo)
-            
-        } catch let error as YumemiWeatherError {
-            return .failure(.apiError(error))
-        } catch {
-            return .failure(.decodeResponseError)
         }
     }
 }

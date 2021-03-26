@@ -15,17 +15,25 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
     @IBOutlet private weak var reloadButton: UIButton!
     @IBOutlet private weak var minTempLabel: UILabel!
     @IBOutlet private weak var maxTempLabel: UILabel!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     private var weatherModel: WeatherModel!
+    private var scheduler: SchedulerObject!
     
-    init?(coder: NSCoder, with dependency: WeatherModel) {
-         self.weatherModel = dependency
-         super.init(coder: coder)
-     }
+    struct Dependency {
+        let weatherModel: WeatherModel
+        let scheduler: SchedulerObject
+    }
+    
+    init?(coder: NSCoder, with dependency: Dependency) {
+        weatherModel = dependency.weatherModel
+        scheduler = dependency.scheduler
+        super.init(coder: coder)
+    }
 
-     required init?(coder: NSCoder) {
-         fatalError("You must create this view controller with a user.")
-     }
+    required init?(coder: NSCoder) {
+        fatalError("You must create this view controller with a user.")
+    }
     
     @IBAction func reloadWeatherAction(_ sender: Any) {
         reloadWeather()
@@ -49,12 +57,18 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
     @objc private func reloadWeather() {
         let exampleRequest = WeatherRequest(area: "tokyo", date: Date())
         
-        switch weatherModel.fetchWeather(request: exampleRequest) {
-            case let .success(weatherInfo):
-                configure(with: weatherInfo)
-                
-            case let .failure(error):
-                showAlert(message: error.errorDescription)
+        loadingIndicator.startAnimating()
+        weatherModel.fetchWeather(request: exampleRequest) { [weak self] weatherInfo in
+            
+            self?.scheduler.runOnMainThread { 
+                self?.loadingIndicator.stopAnimating()
+            
+                if let weahterInfo = weatherInfo {
+                    self?.configure(with: weahterInfo)
+                } else {
+                    self?.showAlert(message: "データの取得に失敗しました")
+                }
+            }
         }
     }
     

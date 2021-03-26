@@ -38,18 +38,19 @@ class yumemi_ios_trainingTests: XCTestCase {
     }
     
     func test_天気予報がsunnyだったら画面に晴れ画像が表示されること() throws {
-        
         let weatherMock = WeatherModelMock()
-        
         let sunnyResponse: WeatherInfo = .init(weather: .sunny, maxTemp: 99, minTemp: -99, date: Date())
-        weatherMock.fetchWeatherHandler = { _ in
-            return .success(sunnyResponse)
+        
+        weatherMock.fetchWeatherHandler = { _, completion in
+            completion(sunnyResponse)
         }
         
-        let viewController = WeatherViewController.instantiate(with: weatherMock)
+        let testScheduler = TestScheduler()
+        let viewController = WeatherViewController.instantiate(with: .init(weatherModel: weatherMock, scheduler: testScheduler))
+        
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
-       
+
         let weatherImage = getwWeatherImage(viewController: viewController)
         let expectedImage = UIImage(named: "iconmonstr-weather-1")!.withTintColor(.systemRed)
 
@@ -57,18 +58,19 @@ class yumemi_ios_trainingTests: XCTestCase {
     }
     
     func test_天気予報がcloudyだったら画面に曇り画像が表示されること() throws {
-        
         let weatherMock = WeatherModelMock()
         let cloudyResponse: WeatherInfo = .init(weather: .cloudy, maxTemp: 99, minTemp: -99, date: Date())
         
-        weatherMock.fetchWeatherHandler = { _ in
-            return .success(cloudyResponse)
+        weatherMock.fetchWeatherHandler = { _, completion in
+            completion(cloudyResponse)
         }
         
-        let viewController = WeatherViewController.instantiate(with: weatherMock)
+        let testScheduler = TestScheduler()
+        let viewController = WeatherViewController.instantiate(with: .init(weatherModel: weatherMock, scheduler: testScheduler))
+        
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
-        
+
         let weatherImage = getwWeatherImage(viewController: viewController)
         let expectedImage = UIImage(named: "iconmonstr-weather-11")!.withTintColor(.systemGray)
         
@@ -76,15 +78,16 @@ class yumemi_ios_trainingTests: XCTestCase {
     }
     
     func test_天気予報がrainyだったら画面に雨画像が表示されること() throws {
-        
         let weatherMock = WeatherModelMock()
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 99, minTemp: -99, date: Date())
         
-        weatherMock.fetchWeatherHandler = { _ in
-            return .success(rainyResponse)
+        weatherMock.fetchWeatherHandler = { _, completion in
+            completion(rainyResponse)
         }
         
-        let viewController = WeatherViewController.instantiate(with: weatherMock)
+        let testScheduler = TestScheduler()
+        let viewController = WeatherViewController.instantiate(with: .init(weatherModel: weatherMock, scheduler: testScheduler))
+        
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
     
@@ -96,37 +99,37 @@ class yumemi_ios_trainingTests: XCTestCase {
     
     func test_天気予報の最高気温がUILabelに反映されること() throws {
         let weatherMock = WeatherModelMock()
-        
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 45, minTemp: -99, date: Date())
         
-        weatherMock.fetchWeatherHandler = { _ in
-            return .success(rainyResponse)
+        weatherMock.fetchWeatherHandler = { _, completion in
+            completion(rainyResponse)
         }
         
-        let viewController = WeatherViewController.instantiate(with: weatherMock)
+        let testScheduler = TestScheduler()
+        let viewController = WeatherViewController.instantiate(with: .init(weatherModel: weatherMock, scheduler: testScheduler))
+        
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
         
         let maxTempLabel = getTempLabel(viewController: viewController, accessibilityIdentifier: "maxTempLabel")
-        
         XCTAssertEqual(maxTempLabel.text, "\(rainyResponse.maxTemp)")
     }
     
     func test_天気予報の最低気温がUILabelに反映されること() throws {
         let weatherMock = WeatherModelMock()
-        
         let rainyResponse: WeatherInfo = .init(weather: .rainy, maxTemp: 99, minTemp: -45, date: Date())
         
-        weatherMock.fetchWeatherHandler = { _ in
-            return .success(rainyResponse)
+        weatherMock.fetchWeatherHandler = { _, completion in
+            completion(rainyResponse)
         }
         
-        let viewController = WeatherViewController.instantiate(with: weatherMock)
+        let testScheduler = TestScheduler()
+        let viewController = WeatherViewController.instantiate(with: .init(weatherModel: weatherMock, scheduler: testScheduler))
+        
         viewController.loadViewIfNeeded()
         viewController.viewDidAppear(true)
-    
+
         let minTempLabel = getTempLabel(viewController: viewController, accessibilityIdentifier: "minTempLabel")
-        
         XCTAssertEqual(minTempLabel.text, "\(rainyResponse.minTemp)")
     }
 }
