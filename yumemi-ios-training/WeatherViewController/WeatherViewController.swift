@@ -75,6 +75,10 @@ final class WeatherViewController: UIViewController, StoryboardInstantiatable, I
         present(alert, animated: true, completion: nil)
     }
     
+    deinit {
+        print("deinit")
+    }
+    
 }
 
 extension WeatherViewController: WeatherModelDelegate {
